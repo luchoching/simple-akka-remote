@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="simple-akka-remote" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="protobuf" name="Protobuf Facet">
+      <configuration>
+        <option name="COMPILER_OUTPUT_SOURCE_DIRECTORY" value="$MODULE_DIR$/../../src/main/scala/com/example/transformation/protos" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../../target/scala-2.11/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-2.11/test-classes" />
