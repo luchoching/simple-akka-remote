@@ -1,4 +1,12 @@
-# note 
+# 項目
+
+`hello`: typesafe akka-sample-main-scala
+
+
+
+# TODO  
+
+## 1
 
 run `TransformationApp`: 
 
@@ -8,7 +16,7 @@ run `TransformationApp`:
 
 --> use protobuf or kryto 
 
-# note 
+## 2  
 
 ```
 [info] Running com.example.stats.StatsSampleClient
