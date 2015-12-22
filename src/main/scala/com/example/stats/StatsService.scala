@@ -1,13 +1,14 @@
 package com.example.stats
 
-import akka.actor.{ReceiveTimeout, ActorRef, Props, Actor}
+import akka.actor.{Actor, ActorRef, Props, ReceiveTimeout}
 import akka.routing.ConsistentHashingRouter.ConsistentHashableEnvelope
 import akka.routing.FromConfig
+
 import scala.concurrent.duration._
 
 
 class StatsService extends Actor {
-  val workerRouter = context.actorOf(FromConfig.props(Props[StatsWorker]),name = "workerRouter")
+  val workerRouter = context.actorOf(FromConfig.props(Props[StatsWorker]), name = "workerRouter")
 
   def receive = {
     case StatsJob(text) if text != "" =>
@@ -21,14 +22,14 @@ class StatsService extends Actor {
   }
 }
 
-class StatsAggregator(expectedResults:Int, replyTo: ActorRef) extends Actor{
+class StatsAggregator(expectedResults: Int, replyTo: ActorRef) extends Actor {
   var results = IndexedSeq.empty[Int]
   context.setReceiveTimeout(3.seconds)
 
   def receive = {
-    case wordCount:Int =>
+    case wordCount: Int =>
       results = results :+ wordCount
-      if(results.size == expectedResults){
+      if (results.size == expectedResults) {
         val meanWordLength = results.sum.toDouble / results.size
         replyTo ! StatsResult(meanWordLength)
         context.stop(self)

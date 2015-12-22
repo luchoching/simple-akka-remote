@@ -2,7 +2,7 @@ package com.example
 
 import java.io.File
 
-import akka.actor.{Props, ActorSystem, Actor}
+import akka.actor.{Actor, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
 class RemoteActor extends Actor {
@@ -14,8 +14,8 @@ class RemoteActor extends Actor {
   }
 }
 
-object RemoteActor{
-  def main(args: Array[String]): Unit ={
+object RemoteActor {
+  def main(args: Array[String]): Unit = {
     //get the config file from classpath
     val configFile = getClass.getClassLoader
       .getResource("remote_application.conf").getFile
@@ -26,7 +26,7 @@ object RemoteActor{
     //create an actor system with that config
     val system = ActorSystem("RemoteSystem", config)
 
-    val remote = system.actorOf(Props[RemoteActor], name="remote")
+    val remote = system.actorOf(Props[RemoteActor], name = "remote")
     println("remote is ready")
   }
 }

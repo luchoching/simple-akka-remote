@@ -3,8 +3,11 @@ package com.example.hello
 import akka.actor.Actor
 
 object Greeter {
+
   case object Greet
+
   case object Done
+
 }
 
 class Greeter extends Actor {

@@ -2,7 +2,7 @@ package com.example
 
 import java.io.File
 
-import akka.actor.{Props, ActorSystem, Actor}
+import akka.actor.{Actor, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
 //local actor which listens on any free port

@@ -1,7 +1,7 @@
 package com.example
 
-import akka.actor.{Props, ActorLogging, Actor, ActorSystem}
-import akka.cluster.{MemberStatus, Cluster}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
+import akka.cluster.Cluster
 import akka.cluster.ClusterEvent._
 import com.typesafe.config.ConfigFactory
 

@@ -1,8 +1,8 @@
 package com.example.transformation
 
-import akka.actor.{RootActorPath, Props, ActorSystem, Actor}
-import akka.cluster.{Member, MemberStatus, Cluster}
+import akka.actor.{Actor, ActorSystem, Props, RootActorPath}
 import akka.cluster.ClusterEvent.{CurrentClusterState, MemberUp}
+import akka.cluster.{Cluster, Member, MemberStatus}
 import com.typesafe.config.ConfigFactory
 
 class TransformationBackend extends Actor {
@@ -10,16 +10,16 @@ class TransformationBackend extends Actor {
   val cluster = Cluster(context.system)
 
   //subscribe to cluster changes, MemberUp
-  override def preStart():Unit = cluster.subscribe(self, classOf[MemberUp])
+  override def preStart(): Unit = cluster.subscribe(self, classOf[MemberUp])
 
   //re-subscribe when restart
-  override def postStop():Unit = cluster.unsubscribe(self)
+  override def postStop(): Unit = cluster.unsubscribe(self)
 
   def receive = {
     case TransformationJob(text) => sender ! TransformationResult(text.toUpperCase)
     case state: CurrentClusterState =>
       state.members.filter(_.status == MemberStatus.Up) foreach register
-    case MemberUp(m)=>register(m)
+    case MemberUp(m) => register(m)
   }
 
   def register(member: Member): Unit = {
