@@ -31,14 +31,12 @@ object TransformationFrontend {
   def main(args: Array[String]) {
     val port = if (args.isEmpty) "0" else args(0)
 
-    val sourceConf = ConfigFactory.load("cluster_configuration")
-    val config = ConfigFactory.defaultOverrides()
-      .withFallback(ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port))
-      .withFallback(ConfigFactory.parseString("akka.cluster.roles = [frontend]"))
-      .withFallback(sourceConf)
+    val config = ConfigFactory.parseString(s"akka.remote.netty.tcp.port=$port").
+      withFallback(ConfigFactory.parseString("akka.cluster.roles = [frontend]")).
+      withFallback(ConfigFactory.load("cluster_configuration"))
+
     val system = ActorSystem("ClusterSystem", config)
     val frontend = system.actorOf(Props[TransformationFrontend], name = "frontend")
-
 
     val counter = new AtomicInteger
 
