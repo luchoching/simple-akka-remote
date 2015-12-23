@@ -2,6 +2,9 @@
 
 `hello`: typesafe akka-sample-main-scala
 
+`simple`: typesafe akka-sample-cluster-scala simple 
+
+`transformation`: typesafe akka-sample-cluster-scala Worker Dial-in
 
 
 # TODO  
