@@ -6,6 +6,7 @@
 
 `transformation`: typesafe akka-sample-cluster-scala Worker Dial-in
 
+`calculator`: typesafe akka-sample-remote-scala remote search (calculator)
 
 # TODO  
 
