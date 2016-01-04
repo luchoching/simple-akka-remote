@@ -14,9 +14,10 @@ libraryDependencies ++= {
     "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8",
 
 
-  "com.typesafe.akka" %% "akka-remote" % akkaV,
-  "com.typesafe.akka" %% "akka-cluster" % akkaV,
-  "com.typesafe.akka" % "akka-cluster-metrics_2.11" % akkaV
+    "com.typesafe.akka" %% "akka-remote" % akkaV,
+    "com.typesafe.akka" %% "akka-cluster" % akkaV,
+    "com.typesafe.akka" % "akka-cluster-metrics_2.11" % akkaV,
+    "com.typesafe.akka" %% "akka-cluster-sharding" % akkaV
   )
 }
 

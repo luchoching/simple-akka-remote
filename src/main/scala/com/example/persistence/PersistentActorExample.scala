@@ -26,12 +26,12 @@ class ExamplePersistentActor extends PersistentActor {
   def numEvents =
     state.size
 
-  def receiveRecover: Receive = {
+  override def receiveRecover: Receive = {
     case evt: Evt => updateState(evt)
     case SnapshotOffer(_, snapshot: ExampleState) => state = snapshot
   }
 
-  def receiveCommand: Receive = {
+  override def receiveCommand: Receive = {
     case Cmd(data) =>
       persist(Evt(s"${data}-${numEvents}"))(updateState)
       persist(Evt(s"${data}-${numEvents + 1}")){ event =>
