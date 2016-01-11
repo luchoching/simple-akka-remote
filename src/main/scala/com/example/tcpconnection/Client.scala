@@ -1,52 +1,55 @@
-package com.example.tcpConnection
-
+package com.example.tcpconnection
 import java.net.InetSocketAddress
 
-import akka.actor.{ActorSystem, Actor, Props, ActorRef}
+import akka.actor.{Props, ActorLogging, ActorRef, Actor}
 import akka.io.{IO, Tcp}
 import akka.util.ByteString
 
-object ConcentratorClient {
-  def main(args: Array[String]) {
-    val system = ActorSystem("mySystem")
-    val myActor = system.actorOf(Props(
-      classOf[ConcentratorClient], new InetSocketAddress("127.0.0.1",10000)), "myactor2")
-  }
 
+object Client {
 
-  def props(remote: InetSocketAddress): Unit = {
-    Props(classOf[ConcentratorClient], remote)
-  }
+  case object ConnFailed
+  case object ConnClosed
+  case object WriteFailed
+
+  def props(remote: InetSocketAddress, replies: ActorRef) =
+    Props(classOf[Client], remote, replies)
 }
 
-class ConcentratorClient(remote: InetSocketAddress) extends Actor {
+class Client(remote: InetSocketAddress, listener: ActorRef)
+  extends Actor with ActorLogging {
+
   import Tcp._
   import context.system
+  import Client._
 
   IO(Tcp) ! Connect(remote)
 
   def receive = {
     case CommandFailed(_: Connect) =>
-      println("connect failed")
+      listener ! ConnFailed
       context stop self
-
     case c @ Connected(remote, local) =>
-      println(c)
+      listener ! c
       val connection = sender()
       connection ! Register(self)
       context become {
+        //send data to server
         case data: ByteString =>
           connection ! Write(data)
         case CommandFailed(w: Write) =>
           // O/S buffer was full
-          println("write failed")
+          listener ! WriteFailed
         case Received(data) =>
-          println( data)
+          listener ! data
         case "close" =>
           connection ! Close
         case _: ConnectionClosed =>
-          println("connection closed")
+          listener ! ConnClosed
           context stop self
       }
   }
+
+
+
 }

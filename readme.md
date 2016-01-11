@@ -6,6 +6,8 @@
 
 `transformation`: typesafe akka-sample-cluster-scala Worker Dial-in
 
+`tcpconnection`: test akka actor client connect to nodejs  tcp server
+
 
 # TODO  
 
